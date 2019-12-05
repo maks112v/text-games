@@ -1,3 +1,14 @@
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+
+items = {
+    'badge': Item("Pa’s badge", " Your pa’s badge. He was a good man who kept the peace in this town. You still remember the day a cattle rustler shot him in the back and took his life. ")
+}
+
+
 class Location:
     def __init__(self, name, description, items):
         self.name = name
@@ -5,8 +16,13 @@ class Location:
         self.items = items
         self.visited = False
 
-    def examine(self, item):
-        if getattr(self.actions["examine"], item):
+    def __str__(self):
+        return self.name
+
+    def act(self, action, subject):
+        print(subject)
+        print(self.actions[action])
+        if getattr(self.actions[action], 'pockets', None) is not None:
             print('Allowed')
 
 

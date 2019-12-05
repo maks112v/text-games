@@ -1,4 +1,5 @@
 from contents import locations
+from contents import items
 
 
 class Game:
@@ -23,7 +24,7 @@ class Game:
 
     def getHelp(self):
         print(
-            "\nmove [direction]: Help you move around the map.\nexamine [object]: Used to look at objects around you.\nType exit to leave at any time\n")
+            "\nmove [direction]: Help you move around the map.\nexamine [object]: Used to look at objects around you.\nme: Get more info about your progress\nType exit to leave at any time\n")
 
     def waitToContinue(self):
         input('\nPress Enter to continue...\n')
@@ -36,24 +37,36 @@ class Player(Game):
         self.inventory = inventory
         super().__init__()
 
+    def __str__(self):
+        print(
+            f'You are at {self.current_room.__str__()} with a score of {self.score}')
+
 
 name = ""
 while len(name) < 1:
     name = input('\nWhat is your name?\n> ')
 
-current_player = Player(name, locations["main_street"], [])
+current_player = Player(name, locations["main_street"], [items["badge"]])
 
 commands = {
+    'me': current_player.__str__,
     "help": current_player.getHelp,
     "exit": current_player.endGame
 }
 
+actions = ['move', "examine"]
+
 while current_player.active:
-    command = [x.strip() for x in input('\n> ').split(' ')]
-    print(command[0])
+    command = [x for x in input('\n> ').split(' ') if x]
+    print(command)
     current_player.incrementMoves()
     if command[0] in commands:
         commands[command[0]]()
+    elif command[0] in actions:
+        if len(command) > 1:
+            current_player.current_room.act(command[0], command[1])
+        else:
+            print("Try to give a full command")
     else:
         print("Invalid Action.\nYou can type `help` to get more options")
     # if action == "exit":
