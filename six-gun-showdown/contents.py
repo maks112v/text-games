@@ -20,22 +20,30 @@ class Location:
         return self.name
 
     def act(self, action, subject):
-        print(subject)
-        # print(self.actions[action])
+        print(action + subject)
         if action not in self.actions:
             print('Not an Action')
-        elif getattr(self.actions[action], 'pockets', None) is not None:
-            print('Allowed')
+        elif getattr(self.actions[action], subject, None) is not None:
+            print(self.actions[action][subject])
         else:
             print("Invalid Input")
 
 
 locations = {
-    "main_street": Location("Main Street", "", ["bottle"])
+    "main_street": Location("Main Street", "", []),
+    "saloon": Location("Saloon", "", ["bottle"])
+
 }
 
 locations["main_street"].actions = {
     "examine": {
-        "pockets": "You find your pa’s old silver sheriff’s badge and a copper penny. Your hands are shakin’ like the devil—seems a little hair of the dog is required. Fortunately, you still have that bottle back at home."
+        "pockets": "You find your pa’s old silver sheriff’s badge and a copper penny. Your hands are shakin’ like the devil—seems a little hair of the dog is required. Fortunately, you still have that bottle back at home.",
+        "penny": "Quite literally your last cent. That, plus a dwindling line of credit at Cooper’s General Store, is the sum of your worldly fortune. "
+    },
+    'wear': {
+        "badge": "The tremor in your hands makes even this simple task impossible."
+    },
+    "move": {
+        "north": locations['saloon']
     }
 }

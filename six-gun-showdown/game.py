@@ -11,6 +11,7 @@ class Game:
         print('You’re fresh out of the drunk tank, down to a pair of worn leather boots and whatever’s left in your pockets. The saloon and general store are here. Your shack is to the west. A road leads south to the edge of town.')
         self.waitToContinue()
         print('You have a badge, a penny and a pair of leather boots.\n')
+        print('Hint: Use the `examine [object]` to take a closer look\n')
         print('Exits are north, south, east, and west.')
         print('To travel type `move [direction]` or type `help`')
 
@@ -37,6 +38,12 @@ class Player(Game):
         self.inventory = inventory
         super().__init__()
 
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        else:
+            raise AttributeError("No such attribute: " + name)
+
     def __str__(self):
         print(
             f'You are at {self.current_room.__str__()} with a score of {self.score}')
@@ -54,7 +61,7 @@ commands = {
     "exit": current_player.endGame
 }
 
-actions = ['move', "examine"]
+actions = ['move', "examine", "wear"]
 
 while current_player.active:
     command = [x for x in input('\n> ').split(' ') if x]
@@ -63,6 +70,7 @@ while current_player.active:
     if command[0] in commands:
         commands[command[0]]()
     elif command[0] in actions:
+        current_player.incrementMoves()
         if len(command) > 1:
             current_player.current_room.act(command[0], command[1])
         else:
