@@ -21,9 +21,13 @@ class Location:
 
     def act(self, action, subject):
         print(subject)
-        print(self.actions[action])
-        if getattr(self.actions[action], 'pockets', None) is not None:
+        # print(self.actions[action])
+        if action not in self.actions:
+            print('Not an Action')
+        elif getattr(self.actions[action], 'pockets', None) is not None:
             print('Allowed')
+        else:
+            print("Invalid Input")
 
 
 locations = {
