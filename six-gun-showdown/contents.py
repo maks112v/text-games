@@ -16,21 +16,17 @@ class Location:
         self.items = items
         self.visited = False
 
-    def __str__(self):
-        return self.name
-
-    def act(self, action, subject):
-        print(action + subject)
-        if action not in self.actions:
-            print('Not an Action')
-        elif getattr(self.actions[action], subject, None) is not None:
-            print(self.actions[action][subject])
+    def roomEntered(self):
+        if False:
+            print(f'You are back at the {self.name}')
         else:
-            print("Invalid Input")
+            print(f"\n{self.description}")
+        self.visited
 
 
 locations = {
     "main_street": Location("Main Street", "", []),
+    "rundown_shack": Location("Rundown Shack", "You stagger back home to your shack. Home sweet home. Pa’s pistol and holster are here, hanging on a hook. There’s a broken whiskey bottle on the floor.", []),
     "saloon": Location("Saloon", "", ["bottle"])
 
 }
@@ -44,6 +40,7 @@ locations["main_street"].actions = {
         "badge": "The tremor in your hands makes even this simple task impossible."
     },
     "move": {
-        "north": locations['saloon']
+        "north": locations['saloon'],
+        "west": locations['rundown_shack']
     }
 }

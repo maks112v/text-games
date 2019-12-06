@@ -48,6 +48,12 @@ class Player(Game):
         print(
             f'You are at {self.current_room.__str__()} with a score of {self.score}')
 
+    def act(self, action, subject):
+        print(action + subject)
+
+    def moveRooms(self, room):
+        self.current_room = room
+
 
 name = ""
 while len(name) < 1:
@@ -72,7 +78,8 @@ while current_player.active:
     elif command[0] in actions:
         current_player.incrementMoves()
         if len(command) > 1:
-            current_player.current_room.act(command[0], command[1])
+            current_player.act(
+                command[0], command[1])
         else:
             print("Try to give a full command")
     else:
