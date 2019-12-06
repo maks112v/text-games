@@ -54,7 +54,6 @@ locations["rundown_shack"].actions = {
         "pistol": "\nThat’s as fine a piece of steel as there ever was. You check the cylinder... and it’s still loaded, for old times’ sake. But your gunslinger days are far behind you.",
         'bottle': '\nYep, that might explain last night’s sleeping arrangements.'
     },
-
     "move": {
         "east": locations['main_street'],
         "out": locations['main_street']
@@ -62,8 +61,16 @@ locations["rundown_shack"].actions = {
 }
 
 locations["saloon"].actions = {
+    "examine": {
+        'bottle': "\nNot the kind of drink you were after..."
+    },
     "order": {
-        "drink": "\nThe bartender says, “Sarsaparilla’s one cent, friend.” He won’t sell anything harder to a drunk like you."
+        "drink": "\nThe bartender says, “Sarsaparilla’s one cent, friend.” He won’t sell anything harder to a drunk like you.",
+        'sarsaparilla': "\nYou pay, and the bartender slides the bottle down to you. You now have a bottle of sarsaparilla."
+    },
+    "drink": {
+        "bottle": "\nMmm... refreshing. The bottle is now empty.",
+        "sarsaparilla": "\nMmm... refreshing. The bottle is now empty.",
     },
     "move": {
         "south": locations['main_street']

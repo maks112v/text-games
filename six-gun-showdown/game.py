@@ -80,14 +80,14 @@ commands = {
     "exit": current_player.endGame
 }
 
-actions = ['move', "examine", "wear", "order"]
+actions = ['move', "examine", "wear", "order", "drink"]
 
 commandHelp = {
     "move": "[direction]",
     'examine': '[object]',
     'wear': '[object]',
-    'order': 'drink',
-
+    'order': '[item]',
+    "drink": '[item]'
 }
 
 while current_player.active:
