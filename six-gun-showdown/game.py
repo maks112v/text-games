@@ -46,10 +46,23 @@ class Player(Game):
 
     def __str__(self):
         print(
-            f'You are at {self.current_room.__str__()} with a score of {self.score}')
+            f'You are at {self.current_room.name} with a score of {self.score} out of 100')
 
     def act(self, action, subject):
-        print(action + subject)
+        try:
+            selectedAction = self.current_room.actions[action] if action in self.current_room.actions else None
+            if selectedAction is None:
+                print('Invalid Action')
+            elif subject not in selectedAction:
+                print(
+                    f'{action} {subject} is not a valid action try: {action} {commandHelp[action]}')
+            elif action == "move":
+                self.moveRooms(selectedAction[subject])
+                self.current_room.roomEntered()
+            else:
+                print(selectedAction[subject])
+        except:
+            print("Invalid Action")
 
     def moveRooms(self, room):
         self.current_room = room
@@ -59,7 +72,7 @@ name = ""
 while len(name) < 1:
     name = input('\nWhat is your name?\n> ')
 
-current_player = Player(name, locations["main_street"], [items["badge"]])
+current_player = Player(name, locations["main_street"], ["badge"])
 
 commands = {
     'me': current_player.__str__,
@@ -67,22 +80,27 @@ commands = {
     "exit": current_player.endGame
 }
 
-actions = ['move', "examine", "wear"]
+actions = ['move', "examine", "wear", "order"]
+
+commandHelp = {
+    "move": "[direction]",
+    'examine': '[object]',
+    'wear': '[object]',
+    'order': 'drink',
+
+}
 
 while current_player.active:
-    command = [x for x in input('\n> ').split(' ') if x]
-    print(command)
+    command = [x.lower() for x in input('\n> ').split(' ') if x]
     current_player.incrementMoves()
-    if command[0] in commands:
+    if len(command) > 0 and command[0] in commands:
         commands[command[0]]()
-    elif command[0] in actions:
+    elif len(command) > 0 and command[0] in actions:
         current_player.incrementMoves()
         if len(command) > 1:
             current_player.act(
                 command[0], command[1])
         else:
-            print("Try to give a full command")
+            print(f"Try Again: {command[0]} {commandHelp[command[0]]}")
     else:
         print("Invalid Action.\nYou can type `help` to get more options")
-    # if action == "exit":
-    #     current_player.endGame()
